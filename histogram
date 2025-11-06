@@ -1,0 +1,72 @@
+#include <stdbool.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+// n - počet čísel který proram načte
+// m udává rozsah čísel, pro které máte počítat histogram. Tento rozsah bude dán intervalem [m, m + 8].
+// Např. když m bude 5, tak histogram bude počítat výskyty čísel 5 až 13 (včetně).
+void print(const int array[10], int m) {
+  for (int index_rada = 0; index_rada < 10; index_rada++) {
+    
+    if (index_rada == 9 && array[9] > 0){ 
+        printf("invalid: " );
+      }
+    else if (index_rada == 9) {
+      printf("\n");
+    }
+      else if ((m+8)>100 && index_rada+m < 100) {
+        printf(" %d ", index_rada+m);
+      }
+      else if ((m+8)>1000 && index_rada+m < 1000) {
+        printf(" %d ", index_rada+m);
+      }
+       else if ((m+8)>1000 && index_rada+m < 1000) {
+        printf(" %d ", index_rada+m);
+      }
+      else {printf("%d ", index_rada+m);}
+      int counter = array [index_rada];
+    for (int pocet = 0; pocet < counter; pocet++) {
+    
+      printf ("#");
+      
+    }
+    counter=0;
+    printf("\n");
+      }
+}
+int main()
+{
+  int m = 0;
+  int n = 0;
+  int *a = 0;
+  char ch;
+  scanf("%c", &ch);
+  scanf("%d %d", &n, &m);
+  int pole[10] = {0};
+  int invalid = 0;
+  int docasna_hodnota = 0;
+  int i = 0;
+  if (ch != 'h')
+  {
+    printf("Neplatny mod vykresleni\n");
+    return 1;
+  }
+  if (ch == 'h')
+  {
+    for (i = 0; i < n; i++)
+    {
+      scanf("%d", &docasna_hodnota);
+      if (m <= docasna_hodnota && docasna_hodnota <= (m + 8))
+      {
+        pole[docasna_hodnota - m] ++;
+      }
+      else
+      {
+        invalid++;
+      }
+    }
+    pole[9] = invalid;
+  }
+  print (pole, m);
+return 0;
+}
