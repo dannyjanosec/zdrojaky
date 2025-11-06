@@ -1,0 +1,102 @@
+#include "drawing.h"
+void cara(int delka)
+{
+  int i = 0;
+  for (i = 0; i < delka; i++)
+  {
+    draw_pixel();
+    move_right();
+  }
+}
+void prerusovana_cara(int delka)
+{
+  int i = 0;
+  for (i = 0; i < delka; i++)
+  {
+    draw_pixel();
+    move_right();
+    move_right();
+  }
+}
+void schody(int pocet_schodu)
+{
+  int i = 0;
+  for (i = 0; i < pocet_schodu; i++)
+  {
+    draw_pixel();
+    move_right();
+    move_down();
+  }
+}
+void kvetina(int sirka, int vyska, int radek, int sloupec)
+{
+  set_red_color();
+  move_to(radek, sloupec);
+  prerusovana_cara(sirka);
+  move_to(radek + 1, sloupec);
+  cara(2 * sirka - 1);
+  for (int index_radek = 2 + radek; index_radek < radek+vyska; index_radek++) 
+  {
+    move_to(index_radek, sloupec + (sirka-2/2));
+    set_green_color();
+    draw_pixel();
+    move_down();
+  }
+  }
+  void louka(int nahore, int dole) {
+ int n = nahore;
+ int d = dole;
+    for (int pocet_nahore = 0; pocet_nahore < n; pocet_nahore++){
+    kvetina(3,4,1, 10+(pocet_nahore*10));
+    }
+    for (int pocet_dole= 0; pocet_dole < d; pocet_dole++){ 
+    kvetina (3 ,4, 6, 10+(pocet_dole*10));
+   }
+   }
+int main()
+{
+  // Keep this line here
+  clear_screen();
+  // Load the input - what should be drawn.
+  int drawing = 0;
+  scanf("%d", &drawing);
+  if (drawing == 0)
+  {
+    move_to(1, 1);
+    set_blue_color();
+    prerusovana_cara(6);
+    move_to(2, 1);
+    set_red_color();
+    prerusovana_cara(7);
+    move_to(3, 0);
+    set_green_color();
+    prerusovana_cara(8);
+    move_to(4, 1);
+    set_black_color();
+    prerusovana_cara(9);
+  }
+  if (drawing == 1)
+  {
+    move_to(1, 1);
+    set_blue_color();
+    schody(3);
+    move_to(4, 1);
+    set_red_color();
+    schody(4);
+    move_to(8, 1);
+    set_black_color();
+    schody(2);
+  }
+  if (drawing == 2)
+  {
+    kvetina(3, 5, 1, 10);
+  
+  }
+  if (drawing == 3)
+  { move_to (1,1);
+     louka(5,5);
+  }
+  // Put your drawing code here
+  end_drawing();
+  return 0;
+}
