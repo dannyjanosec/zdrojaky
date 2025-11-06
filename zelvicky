@@ -1,0 +1,107 @@
+#include <stdbool.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+//pokud m, pak se posun ve smeru//
+ //%p - adresa, ptr - adresa int* ptr hodnota//
+void pohyb (int* r, int *c, int rows, int cols, int smer) {
+ if (smer ==0) {
+ *c = (*c+1)%cols;}
+ else if (smer ==1) {
+    *r = (*r+1)%rows; }
+ else if (smer == 2){
+    *c = (*c-1 + cols) % cols; }
+else if (smer==3){
+    *r = (*r-1 + rows) %rows;
+}
+}
+int main() {
+int r=0;
+int c = 0;
+int smer = 0;
+int rows = 0;
+int cols = 0;
+int smer2 = 0;
+int r2 = 0;
+int c2 = 0;
+int pocet_zelvicek = 1;
+int r3 = 0;
+int c3 = 0;
+int smer3 = 0;
+scanf("%d %d", &rows, &cols);
+if (rows <=0 || cols <= 0) {
+    printf("Neplatná hodnota\n");
+    return 1;
+}
+char *pole = 0;
+pole = malloc(rows * cols);
+if (pole==NULL) {
+    printf("Nulové pole");
+    printf( "\n");
+    return 2;
+}
+if (rows < 2 || cols < 2) {
+    printf("Moc malé pole");
+    printf("\n");
+    return 3;    
+}
+char znak = 0;
+for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) 
+    {pole[i*cols+j] = '.';
+}
+}
+while (scanf(" %c", &znak)==1) {
+    if (znak == 'r') {
+        smer = (smer + 1) % 4; 
+    if (pocet_zelvicek==2) {
+         smer2 = (smer2 + 1) % 4; 
+    } 
+    if (pocet_zelvicek==3) {
+         smer3 = (smer3 + 1) % 4; 
+    } 
+}
+    else if (znak == 'l') {
+       smer = (smer + 3) % 4;
+        if (pocet_zelvicek>=2) {
+        smer2 = (smer2 + 3) % 4;}
+         if (pocet_zelvicek==3) {
+        smer3 = (smer3 + 3) % 4;}
+    }
+    else if (znak == 'm') {
+        pohyb (&r,&c,rows, cols, smer);
+        if (pocet_zelvicek>=2) {
+        pohyb (&r2, &c2, rows, cols, smer2);}
+        if (pocet_zelvicek==3) {
+        pohyb (&r3, &c3, rows, cols, smer3);}
+    }
+    else if (znak == 'o') {
+        int p = r * cols + c;
+        pole [p] = (pole[p] == 'o') ? '.' : 'o';
+       if (pocet_zelvicek>=2)  {
+        int p2 = r2 * cols + c2;
+        pole [p2] = (pole[p2]== 'o') ? '.' : 'o';
+    }
+      if (pocet_zelvicek==3)  {
+        int p3 = r3 * cols + c3;
+        pole [p3] = (pole[p3]== 'o') ? '.' : 'o';
+    }
+    }
+    else if(znak == 'f') { 
+        pocet_zelvicek++;
+    }
+    else if (znak == 'x') {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                putchar(pole[i*cols+j]);
+                
+            }
+                printf("\n");
+            }
+               break;
+            }
+}
+free(pole);
+    return 0;
+}
