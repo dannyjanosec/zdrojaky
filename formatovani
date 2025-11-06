@@ -1,0 +1,140 @@
+#include <stdbool.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+// ASCII tabulka převádí čísla na znaky//
+// new line nejde vytisknout//
+//|   |// tohle mi ukaže test, jestli je new line nebo ne
+//  musí končit nulou, protože neví kde je konec//
+// písemka jsou stringy//!!!!!!!!!!!
+// scanf - ne vždy, protože nemůže fungovat když neví kolik čísel se bude načítat//
+// fgets a scnaf nikdy nekombinovat//
+// velké písmena od 65 do 90//
+// malé od 97 do 122 - rozdíl mezi jednotlivými malými a velkými písmeny je 32//
+int main() {       
+    char buff [51];
+    char result [51];
+    char tmp [51];
+    if (fgets(buff, 51, stdin) == 0) {
+return 1;
+}
+ int n = atoi (buff);
+ int radek = 0;
+ 
+ while (radek < n && fgets(buff, 51, stdin) != NULL)
+        {   
+int counter_lowercase_o = 0;
+int counter_uppercase_o = 0;
+int spaces_o = 0;
+int len = (int)strlen(buff);
+            int len_2 = len;
+            
+            for (int j = 0; j < len_2; j++)
+            {   
+                if (buff[j] >= 'a' && buff[j] <= 'z')
+                {
+                    counter_lowercase_o++;
+                }
+                else if (buff[j] >= 'A' && buff[j] <= 'Z')
+                {
+                    counter_uppercase_o++;
+                }
+                else if (buff[j]==' ') {
+                    spaces_o++;
+                }
+                }
+         
+                if (len>0 && buff[len-1] == '\n') {
+                    buff[len-1] = '\0';
+                    len_2--;
+                }
+                int r = 0;
+                int s = 0;
+                for (int i = 0; i < 51; i++) { result[i] = '\0'; }              
+                  int p_slovo = 1;
+            while (r<len && buff[r] == ' ') {
+                    r++; }
+                    
+                while (r < len) {
+                int zacatek = r;
+                while (r<len && ((buff[r] >= 'a' && buff[r] <='z') || (buff[r] >= 'A' && buff[r]<='Z'))) {
+                    r++;
+                }
+                int konec = r;
+                if (zacatek < konec) {
+                    if (!p_slovo && s < 50) {
+                        result[s++] = ' ';
+                    }
+                    p_slovo = 0;
+                    int velkep = 0;
+                    int vsechno_m = 1;
+                    for (int z = zacatek; z < konec; z++) {
+                        if (buff[z] >= 'A' && buff[z] <= 'Z') {
+                            vsechno_m = 0;
+                            break;
+                        }
+                    }
+                    if (vsechno_m == 0) {
+                        velkep = 1;
+                    }
+                    int l = 0;
+                    for (int z = zacatek; z < konec && l < 50; z++){
+                        char c = buff [z];
+                        if(velkep) {
+                            if (z==zacatek) {
+                                if (c >= 'a' && c <= 'z') {
+                                    c = (char)c -32;
+                                }
+                            }
+                        else { if (c >= 'A' && c <= 'Z') {
+                                    c = (char)c + 32;}
+                        }
+                    }
+                    else {
+                        if (c >= 'a' && c <= 'z') {
+                            c = (char)c -32;
+                        }
+                     }
+                     tmp[l++] = c;
+                    }
+                    tmp[l] = '\0';
+                for (int p = 0; p <l  && s < 50; p++){
+                    if (p == 0 || tmp[p] != tmp[p-1]) {
+                        result[s++] = tmp[p];
+                    }
+                }
+             } 
+            while (r<len && buff[r] == ' ') {
+                    r++; }
+                
+            while (r<len  && !((buff[r] >= 'a' && buff[r] <='z') || (buff[r] >= 'A' && buff[r]<='Z')&& !(buff[r]== ' '))) {
+                r++;
+            }
+            }
+             if (s < 51) {
+                result[s] = '\0';
+             }
+             else {result[50] = '\0';}
+             int i = 0;
+            int counter_lowercase_n = 0;
+            int counter_uppercase_n = 0;
+            int spaces_n = 0;  
+             while (result[i] != '\0') {
+               
+                char c = result[i];
+                if (c == ' ') {spaces_n++;}
+            else if (c >= 'a' && c <='z') {counter_lowercase_n++;}
+            else if (c >= 'A' && c <='Z') {counter_uppercase_n++;}
+             i++;
+             }
+             printf("%s\n", result);
+             printf("lowercase: %d -> %d\n", counter_lowercase_o, counter_lowercase_n);
+             printf("uppercase: %d -> %d\n", counter_uppercase_o, counter_uppercase_n);
+             printf("spaces: %d -> %d\n", spaces_o, spaces_n);
+             radek++;
+             if (radek < n -1) {putchar('\n');}
+             }
+             return 0;
+             }
+             
